@@ -1,0 +1,47 @@
+name: Reusable Build and Push
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        description: "The name of the container image."
+        required: true
+        type: string
+      path:
+        description: "The path of the Docker file, eg. dockerfiles/fe-test"
+        required: true
+        type: string
+      push_to_ghcr:
+        description: "Push to ghcr.io"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set date tag
+        run: echo "DATE_TAG=$(date '+%Y%m%d')" >> $GITHUB_ENV
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push to ghcr.io
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ inputs.path }}
+          push: ${{ inputs.push_to_ghcr }}
+          tags: |
+            ghcr.io/${{ inputs.image_name }}:${{ env.DATE_TAG }}
+            ghcr.io/${{ inputs.image_name }}:latest

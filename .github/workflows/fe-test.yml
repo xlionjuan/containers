@@ -1,0 +1,12 @@
+name: fe-test
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: build
+    uses: ./.github/workflows/reusable-build.yml
+    with:
+      image_name: fe-test
+      path: dockerfilws/fe-test
+      push_to_ghcr: true
