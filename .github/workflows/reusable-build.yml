@@ -43,5 +43,5 @@ jobs:
           context: ${{ inputs.path }}
           push: ${{ inputs.push_to_ghcr }}
           tags: |
-            ghcr.io/${{ inputs.image_name }}:${{ env.DATE_TAG }}
-            ghcr.io/${{ inputs.image_name }}:latest
+            ghcr.io/${{ github.repository_owner }}/${{ inputs.image_name }}:${{ env.DATE_TAG }}
+            ghcr.io/${{ github.repository_owner }}/${{ inputs.image_name }}:latest
