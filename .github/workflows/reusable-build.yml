@@ -29,7 +29,7 @@ on:
         description: |
           "Optional labels for the Docker image.
           eg.
-          org.opencontainers.image.description=Another description
+          org.opencontainers.image.description=Another description (Actually nothing happened)
           "
         required: false
         type: string
@@ -38,7 +38,7 @@ on:
         description: |
           "Optional annotations for the Docker image.
           eg.
-          org.opencontainers.image.description=Another description
+          org.opencontainers.image.description=Another description (Also nothing happened)
           "
         required: false
         type: string
@@ -64,6 +64,7 @@ jobs:
         uses: sigstore/cosign-installer@v3.7.0
       
       - name: Set up QEMU
+        if: ${{ inputs.extra_platforms != '' }}
         uses: docker/setup-qemu-action@v3
       
       - name: Set up Docker Buildx
@@ -82,6 +83,7 @@ jobs:
           annotations: ${{ inputs.annotations }}
       
       - name: Log in to GitHub Container Registry
+        if: ${{ inputs.push_to_ghcr == true }}
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
