@@ -15,4 +15,4 @@ jobs:
       image_name: fe-test
       path: dockerfiles/fe-test
       push_to_ghcr: true
-      extra_platforms: linux/arm64
+      #extra_platforms: linux/arm64
