@@ -16,4 +16,4 @@ jobs:
       path: dockerfiles/fe-test
       push_to_ghcr: true
       annotations: |
-        "org.opencontainers.image.description": "Hello World!"
+        org.opencontainers.image.description=Hello
