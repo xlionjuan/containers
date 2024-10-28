@@ -79,14 +79,14 @@ RUN git clone -b 1.x --depth 1 https://github.com/open-mmlab/mmdeploy &&\
     /opt/conda/bin/mim install -e .
 
 ### build sdk
-RUN git clone --branch v${PPLCV_VERSION} --depth 1 https://github.com/openppl-public/ppl.cv.git &&\
-    cd ppl.cv &&\
-    ./build.sh cuda
 
 ENV BACKUP_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH=/usr/local/cuda/compat/lib.real/:$LD_LIBRARY_PATH
 
-RUN cd /root/workspace/mmdeploy &&\
+RUN git clone --branch v${PPLCV_VERSION} --depth 1 https://github.com/openppl-public/ppl.cv.git &&\
+    cd ppl.cv &&\
+    ./build.sh cuda&&\
+    cd /root/workspace/mmdeploy &&\
     rm -rf build/CM* build/cmake-install.cmake build/Makefile build/csrc &&\
     mkdir -p build && cd build &&\
     cmake .. \
@@ -102,7 +102,8 @@ RUN cd /root/workspace/mmdeploy &&\
         -DMMDEPLOY_CODEBASES=all &&\
     make -j$(nproc) && make install &&\
     export SPDLOG_LEVEL=warn &&\
-    if [ -z ${VERSION} ] ; then echo "Built MMDeploy dev-1.x for GPU devices successfully!" ; else echo "Built MMDeploy version v${VERSION} for GPU devices successfully!" ; fi
+    if [ -z ${VERSION} ] ; then echo "Built MMDeploy dev-1.x for GPU devices successfully!" ; else echo "Built MMDeploy version v${VERSION} for GPU devices successfully!" ; fi&&\
+    rm -rf /root/workspace/ppl.cv
 
 ENV LD_LIBRARY_PATH="/root/workspace/mmdeploy/build/lib:${BACKUP_LD_LIBRARY_PATH}"
 
