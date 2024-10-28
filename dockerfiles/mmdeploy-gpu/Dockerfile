@@ -12,17 +12,6 @@ ARG MMENGINE_VERSION=">=0.3.0"
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-### change the system source for installing libs
-ARG USE_SRC_INSIDE=false
-RUN if [ ${USE_SRC_INSIDE} == true ] ; \
-    then \
-        sed -i s/archive.ubuntu.com/mirrors.aliyun.com/g /etc/apt/sources.list ; \
-        sed -i s/security.ubuntu.com/mirrors.aliyun.com/g /etc/apt/sources.list ; \
-        echo "Use aliyun source for installing libs" ; \
-    else \
-        echo "Keep the download source unchanged" ; \
-    fi
-
 ### update apt and install libs
 RUN apt-get update &&\
     apt-get install -y vim libsm6 libxext6 libxrender-dev libgl1-mesa-glx git wget libssl-dev libopencv-dev libspdlog-dev --no-install-recommends &&\
@@ -35,15 +24,6 @@ RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Mini
     rm ~/miniconda.sh && \
     /opt/conda/bin/conda install -y python=${PYTHON_VERSION} conda-build pyyaml numpy ipython cython typing typing_extensions mkl mkl-include ninja && \
     /opt/conda/bin/conda clean -ya
-
-### change the pip source for installing packages
-RUN if [ ${USE_SRC_INSIDE} == true ] ; \
-    then \
-        /opt/conda/bin/pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple; \
-        echo "pip using tsinghua source" ; \
-    else \
-        echo "Keep pip the download source unchanged" ; \
-    fi
 
 ### install pytorch openmim
 RUN /opt/conda/bin/conda install pytorch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} cudatoolkit=${CUDA} -c pytorch -c conda-forge -y \
