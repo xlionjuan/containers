@@ -21,7 +21,7 @@ on:
         type: boolean
         default: false
       max_space:
-        description: "Push to ghcr.io"
+        description: "Maximize build space"
         required: false
         type: boolean
         default: false
