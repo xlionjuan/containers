@@ -25,6 +25,15 @@ on:
         required: false
         type: boolean
         default: false
+      extra_tags:
+        description: |
+          "Extra Tags, ONE TAG ONE LINE, ex:
+            type=raw,value=test
+            type=raw,value=py311
+          "
+        required: false
+        type: string
+        default: ""
       labels:
         description: |
           "Optional labels for the Docker image.
@@ -78,7 +87,8 @@ jobs:
           flavor: |
             latest=true
           tags: |
-             type=raw,value={{date 'YYYYMMDD'}} 
+             type=raw,value={{date 'YYYYMMDD'}}
+             ${{ inputs.extra_tags }}
           labels: ${{ inputs.labels }}
           annotations: ${{ inputs.annotations }}
       

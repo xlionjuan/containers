@@ -16,3 +16,5 @@ jobs:
       path: dockerfiles/mmdeploy-gpu
       push_to_ghcr: true
       max_space: true
+      extra_tags: |
+        type=raw,value=py310
