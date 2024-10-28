@@ -79,7 +79,7 @@ RUN git clone -b 1.x --depth 1 https://github.com/open-mmlab/mmdeploy &&\
     /opt/conda/bin/mim install -e .
 
 ### build sdk
-RUN RUN git clone --branch v${PPLCV_VERSION} --depth 1 https://github.com/openppl-public/ppl.cv.git &&\
+RUN git clone --branch v${PPLCV_VERSION} --depth 1 https://github.com/openppl-public/ppl.cv.git &&\
     cd ppl.cv &&\
     ./build.sh cuda
 
