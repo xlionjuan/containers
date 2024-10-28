@@ -17,4 +17,4 @@ jobs:
       push_to_ghcr: true
       max_space: true
       extra_tags: |
-        type=raw,value=py310
+        type=raw,value=py39
