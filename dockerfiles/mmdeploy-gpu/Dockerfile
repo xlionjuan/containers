@@ -26,6 +26,7 @@ RUN if [ ${USE_SRC_INSIDE} == true ] ; \
 ### update apt and install libs
 RUN apt-get update &&\
     apt-get install -y vim libsm6 libxext6 libxrender-dev libgl1-mesa-glx git wget libssl-dev libopencv-dev libspdlog-dev --no-install-recommends &&\
+    apt-get clean &&\
     rm -rf /var/lib/apt/lists/*
 
 RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
@@ -56,7 +57,8 @@ WORKDIR /root/workspace
 
 ### get onnxruntime
 RUN wget https://github.com/microsoft/onnxruntime/releases/download/v${ONNXRUNTIME_VERSION}/onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}.tgz \
-    && tar -zxvf onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}.tgz
+    && tar -zxvf onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}.tgz\
+    && rm onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}.tgz
 
 ### cp trt from pip to conda
 RUN cp -r /usr/local/lib/python${PYTHON_VERSION}/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
@@ -65,7 +67,7 @@ RUN cp -r /usr/local/lib/python${PYTHON_VERSION}/dist-packages/tensorrt* /opt/co
 ENV ONNXRUNTIME_DIR=/root/workspace/onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}
 ENV TENSORRT_DIR=/workspace/tensorrt
 ARG VERSION
-RUN git clone -b 1.x https://github.com/open-mmlab/mmdeploy &&\
+RUN git clone -b 1.x --depth 1 https://github.com/open-mmlab/mmdeploy &&\
     cd mmdeploy &&\
     if [ -z ${VERSION} ] ; then echo "No MMDeploy version passed in, building on 1.x" ; else git checkout tags/v${VERSION} -b tag_v${VERSION} ; fi &&\
     git submodule update --init --recursive &&\
@@ -77,9 +79,8 @@ RUN git clone -b 1.x https://github.com/open-mmlab/mmdeploy &&\
     /opt/conda/bin/mim install -e .
 
 ### build sdk
-RUN git clone https://github.com/openppl-public/ppl.cv.git &&\
+RUN RUN git clone --branch v${PPLCV_VERSION} --depth 1 https://github.com/openppl-public/ppl.cv.git &&\
     cd ppl.cv &&\
-    git checkout tags/v${PPLCV_VERSION} -b v${PPLCV_VERSION} &&\
     ./build.sh cuda
 
 ENV BACKUP_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
