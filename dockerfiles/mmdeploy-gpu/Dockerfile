@@ -60,6 +60,7 @@ RUN wget https://github.com/microsoft/onnxruntime/releases/download/v${ONNXRUNTI
     cd .. &&\
     /opt/conda/bin/mim install -e . &&\
 
+    cd /root/workspace &&\
     git clone --branch v${PPLCV_VERSION} --depth 1 https://github.com/openppl-public/ppl.cv.git &&\
     cd ppl.cv &&\
     ./build.sh cuda&&\
