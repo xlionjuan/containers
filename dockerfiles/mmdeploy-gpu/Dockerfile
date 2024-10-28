@@ -70,7 +70,7 @@ ARG VERSION
 RUN git clone -b 1.x --depth 1 https://github.com/open-mmlab/mmdeploy &&\
     cd mmdeploy &&\
     if [ -z ${VERSION} ] ; then echo "No MMDeploy version passed in, building on 1.x" ; else git checkout tags/v${VERSION} -b tag_v${VERSION} ; fi &&\
-    git submodule update --init --recursive &&\
+    git submodule update --init --recursive --depth 1 &&\
     mkdir -p build &&\
     cd build &&\
     cmake -DMMDEPLOY_TARGET_BACKENDS="ort;trt" .. &&\
