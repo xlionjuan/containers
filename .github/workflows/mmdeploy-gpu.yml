@@ -17,6 +17,6 @@ jobs:
       push_to_ghcr: true
       max_space: true
       extra_tags: |
-        type=raw,value=py39
-        type=raw,value=py39-{{date 'YYYYMMDD'}}
+        type=raw,value=py38
+        type=raw,value=py38-{{date 'YYYYMMDD'}}
         
