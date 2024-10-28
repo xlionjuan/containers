@@ -47,7 +47,7 @@ RUN if [ ${USE_SRC_INSIDE} == true ] ; \
 
 ### install pytorch openmim
 RUN /opt/conda/bin/conda install pytorch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} cudatoolkit=${CUDA} -c pytorch -c conda-forge -y \
-    && /opt/conda/bin/pip install --no-cache-dir openmim
+    && /opt/conda/bin/pip install --no-cache-dir openmim watchdog
 
 ### pytorch mmcv onnxruntime
 RUN /opt/conda/bin/mim install --no-cache-dir "mmcv"${MMCV_VERSION} onnxruntime-gpu==${ONNXRUNTIME_VERSION} mmengine${MMENGINE_VERSION}
