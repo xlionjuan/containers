@@ -30,6 +30,7 @@ on:
           "Extra Tags, ONE TAG ONE LINE, ex:
             type=raw,value=test
             type=raw,value=py311
+            type=raw,value=py311-{{date 'YYYYMMDD'}}
           "
         required: false
         type: string

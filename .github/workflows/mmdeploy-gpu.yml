@@ -18,3 +18,5 @@ jobs:
       max_space: true
       extra_tags: |
         type=raw,value=py39
+        type=raw,value=py39-{{date 'YYYYMMDD'}}
+        
