@@ -40,10 +40,15 @@ RUN wget https://github.com/microsoft/onnxruntime/releases/download/v${ONNXRUNTI
 ### cp trt from pip to conda
 RUN cp -r /usr/local/lib/python${PYTHON_VERSION}/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
 
+### build sdk
 ### install mmdeploy
 ENV ONNXRUNTIME_DIR=/root/workspace/onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}
 ENV TENSORRT_DIR=/workspace/tensorrt
 ARG VERSION
+
+ENV BACKUP_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
+ENV LD_LIBRARY_PATH=/usr/local/cuda/compat/lib.real/:$LD_LIBRARY_PATH
+
 RUN git clone -b 1.x --depth 1 https://github.com/open-mmlab/mmdeploy &&\
     cd mmdeploy &&\
     if [ -z ${VERSION} ] ; then echo "No MMDeploy version passed in, building on 1.x" ; else git checkout tags/v${VERSION} -b tag_v${VERSION} ; fi &&\
@@ -53,14 +58,9 @@ RUN git clone -b 1.x --depth 1 https://github.com/open-mmlab/mmdeploy &&\
     cmake -DMMDEPLOY_TARGET_BACKENDS="ort;trt" .. &&\
     make -j$(nproc) &&\
     cd .. &&\
-    /opt/conda/bin/mim install -e .
+    /opt/conda/bin/mim install -e . &&\
 
-### build sdk
-
-ENV BACKUP_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
-ENV LD_LIBRARY_PATH=/usr/local/cuda/compat/lib.real/:$LD_LIBRARY_PATH
-
-RUN git clone --branch v${PPLCV_VERSION} --depth 1 https://github.com/openppl-public/ppl.cv.git &&\
+    git clone --branch v${PPLCV_VERSION} --depth 1 https://github.com/openppl-public/ppl.cv.git &&\
     cd ppl.cv &&\
     ./build.sh cuda&&\
     cd /root/workspace/mmdeploy &&\
