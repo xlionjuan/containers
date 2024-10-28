@@ -1,7 +1,7 @@
 FROM nvcr.io/nvidia/tensorrt:22.04-py3
 
 ARG CUDA=11.3
-ARG PYTHON_VERSION=3.8
+ARG PYTHON_VERSION=3.9
 ARG TORCH_VERSION=1.10.0
 ARG TORCHVISION_VERSION=0.11.0
 ARG ONNXRUNTIME_VERSION=1.15.1
@@ -34,7 +34,8 @@ ENV PATH /opt/conda/bin:$PATH
 WORKDIR /root/workspace
 
 ### cp trt from pip to conda
-RUN cp -r /usr/local/lib/python${PYTHON_VERSION}/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
+#RUN cp -r /usr/local/lib/python${PYTHON_VERSION}/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
+RUN cp -r /usr/local/lib/python3.8/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
 
 ### build sdk
 ### install mmdeploy
