@@ -15,4 +15,7 @@ jobs:
       image_name: fe-test-buildah-squash
       path: dockerfiles/fe-test
       push_to_ghcr: true
+      labels: |
+        org.opencontainers.image.description=Hello World
+        org.opencontainers.image.title=Fedora Createrepo Imege
       #extra_platforms: linux/arm64
