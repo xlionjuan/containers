@@ -105,7 +105,6 @@ jobs:
           oci: true
           extra-args: |
             --squash
-            --compression-format=zstd:chunked
 
       - name: Push
         id: push
