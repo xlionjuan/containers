@@ -90,7 +90,8 @@ jobs:
           tags: |
              type=raw,value={{date 'YYYYMMDD'}}
              ${{ inputs.extra_tags }}
-          labels: ${{ inputs.labels }}
+          labels: |
+            ${{ inputs.labels }}
           annotations: ${{ inputs.annotations }}
       
       - name: Log in to GitHub Container Registry
