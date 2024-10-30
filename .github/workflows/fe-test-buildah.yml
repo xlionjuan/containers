@@ -12,10 +12,7 @@ jobs:
     name: build
     uses: ./.github/workflows/reusable-build-buildah.yml
     with:
-      image_name: fe-test-buildah
+      image_name: fe-test-buildah-squash
       path: dockerfiles/fe-test
       push_to_ghcr: true
-      labels: |
-        "org.opencontainers.image.title": "Fedora Test"
-         "org.opencontainers.image.description": "Hello world"
       #extra_platforms: linux/arm64
