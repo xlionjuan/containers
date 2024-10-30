@@ -1,0 +1,1 @@
+FROM ghcr.io/xlionjuan/mmdeploy-gpu-micromamba:py39

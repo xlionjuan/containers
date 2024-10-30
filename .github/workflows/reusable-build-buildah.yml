@@ -84,7 +84,8 @@ jobs:
              type=raw,value={{date 'YYYYMMDD'}}
              ${{ inputs.extra_tags }}
           labels: ${{ inputs.labels }}
-          annotations: ${{ inputs.annotations }}
+          annotations: |
+            ${{ inputs.annotations }}
 
       - name: Log in to ghcr.io
         if: ${{ inputs.push_to_ghcr == true }}
@@ -115,7 +116,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           extra-args: |
-            --compression-format=zstd:chunked
+            --compression-format=zstd
 
       - name: Sign the images with GitHub OIDC Token
         env:
