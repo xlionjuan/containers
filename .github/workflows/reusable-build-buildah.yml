@@ -103,7 +103,9 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           oci: true
-          extra-args: --squash
+          extra-args: |
+            --squash
+            --compression-format=zstd:chunked
 
       - name: Push
         id: push
