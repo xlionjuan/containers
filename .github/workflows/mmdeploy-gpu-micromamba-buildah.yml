@@ -1,0 +1,22 @@
+name: mmdeploy-gpu-micromamba-buildah
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+
+jobs:
+  build:
+    name: build
+    uses: ./.github/workflows/reusable-build-buildah.yml
+    with:
+      image_name: mmdeploy-gpu-micromamba-buildah
+      path: dockerfiles/mmdeploy-gpu-micromamba
+      push_to_ghcr: true
+      max_space: true
+      extra_tags: |
+        type=raw,value=py39
+        type=raw,value=py39-{{date 'YYYYMMDD'}}
+        

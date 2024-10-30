@@ -103,8 +103,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           oci: true
-          extra-args: |
-            --squash
+          extra-args: 
 
       - name: Push
         id: push
