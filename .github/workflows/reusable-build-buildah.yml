@@ -1,0 +1,124 @@
+name: Reusable Build and Push
+on:
+  workflow_call:
+    inputs:
+      image_name:
+        description: "The name of the container image."
+        required: true
+        type: string
+      path:
+        description: "The path of the Docker file, eg. dockerfiles/fe-test"
+        required: true
+        type: string
+      extra_platforms:
+        description: Extra platforms, eg. linux/arm64
+        required: false
+        type: string
+        default: ""
+      push_to_ghcr:
+        description: "Push to ghcr.io"
+        required: false
+        type: boolean
+        default: false
+      max_space:
+        description: "Maximize build space"
+        required: false
+        type: boolean
+        default: false
+      extra_tags:
+        description: |
+          "Extra Tags, ONE TAG ONE LINE, ex:
+            type=raw,value=test
+            type=raw,value=py311
+            type=raw,value=py311-{{date 'YYYYMMDD'}}
+          "
+        required: false
+        type: string
+        default: ""
+      labels:
+        description: |
+          "Optional labels for the Docker image.
+          eg.
+          org.opencontainers.image.description=Another description (Actually nothing happened)
+          "
+        required: false
+        type: string
+        default: ""
+      annotations:
+        description: |
+          "Optional annotations for the Docker image.
+          eg.
+          org.opencontainers.image.description=Another description (Also nothing happened)
+          "
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write # needed for signing the images with GitHub OIDC Token
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Maximize build space
+        if: ${{ inputs.max_space == true }}
+        uses: ublue-os/remove-unwanted-software@v7
+      
+      - name: Install Cosign
+        uses: sigstore/cosign-installer@v3.7.0
+
+      - name: Extract metadata for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/${{ inputs.image_name }}
+          flavor: |
+            latest=true
+          tags: |
+             type=raw,value={{date 'YYYYMMDD'}}
+             ${{ inputs.extra_tags }}
+          labels: ${{ inputs.labels }}
+          annotations: ${{ inputs.annotations }}
+
+      - name: Log in to ghcr.io
+        if: ${{ inputs.push_to_ghcr == true }}
+        uses: redhat-actions/podman-login@v1
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+
+      - name: Buildah Action
+        id: build-image
+        uses: redhat-actions/buildah-build@v2
+        with:
+          context: ${{ inputs.path }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Push
+        id: push
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sign the images with GitHub OIDC Token
+        env:
+          DIGEST: ${{ steps.push.outputs.digest }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          images=""
+          for tag in ${TAGS}; do
+            images+="${tag}@${DIGEST} "
+          done
+          cosign sign --yes ${images}
