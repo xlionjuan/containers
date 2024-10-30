@@ -40,7 +40,7 @@ COPY --from=micromamba /usr/local/bin/_dockerfile_setup_root_prefix.sh /usr/loca
 RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
     /usr/local/bin/_dockerfile_setup_root_prefix.sh
 
-USER $MAMBA_USER
+#USER $MAMBA_USER
 
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
