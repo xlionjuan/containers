@@ -1,4 +1,4 @@
-name: mmdeploy-gpu
+name: mmdeploy-gpu-micromamba
 on:
   workflow_dispatch:
 
