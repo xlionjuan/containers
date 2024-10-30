@@ -99,6 +99,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           context: ${{ inputs.path }}
+          containerfiles: ${{ inputs.path }}/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
