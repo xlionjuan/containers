@@ -54,14 +54,15 @@ on:
         type: string
         default: ""
 
+permissions:
+  contents: read
+  packages: write
+  id-token: write # needed for signing the images with GitHub OIDC Token
+  attestations: write
+
 jobs:
   build-and-push:
     runs-on: fedora
-    permissions:
-      contents: read
-      packages: write
-      id-token: write # needed for signing the images with GitHub OIDC Token
-      attestations: write
 
     steps:
       - name: Check out the repository
