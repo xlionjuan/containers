@@ -61,6 +61,7 @@ jobs:
       contents: read
       packages: write
       id-token: write # needed for signing the images with GitHub OIDC Token
+      attestations: write
 
     steps:
       - name: Check out the repository
