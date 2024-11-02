@@ -110,6 +110,7 @@ jobs:
       - name: Push
         id: push
         uses: redhat-actions/push-to-registry@v2
+        if: ${{ inputs.push_to_ghcr == true }}
         with:
           image: ${{ steps.build-image.outputs.image }}
           tags: ${{ steps.build-image.outputs.tags }}
@@ -120,6 +121,7 @@ jobs:
             --compression-format=zstd
 
       - name: Sign the images with GitHub OIDC Token
+        if: ${{ inputs.push_to_ghcr == true }}
         env:
           DIGEST: ${{ steps.push.outputs.digest }}
           TAGS: ${{ steps.meta.outputs.tags }}
@@ -129,3 +131,11 @@ jobs:
             images+="${tag}@${DIGEST} "
           done
           cosign sign --yes ${images}
+
+      - name: Attest
+        if: ${{ inputs.push_to_ghcr == true }}
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ghcr.io/${{ inputs.image_name }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          push-to-registry: true
