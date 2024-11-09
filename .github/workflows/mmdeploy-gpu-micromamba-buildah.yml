@@ -16,7 +16,7 @@ jobs:
       image_name: mmdeploy-gpu-micromamba-buildah
       path: dockerfiles/mmdeploy-gpu-micromamba
       push_to_ghcr: true
-      max_space: false
+      max_space: true
       extra_tags: |
         type=raw,value=py39
         type=raw,value=py39-{{date 'YYYYMMDD'}}
