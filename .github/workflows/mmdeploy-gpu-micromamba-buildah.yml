@@ -14,7 +14,7 @@ jobs:
     uses: ./.github/workflows/reusable-build-buildah.yml
     with:
       image_name: mmdeploy-gpu-micromamba-buildah-l1
-      path: dockerfiles/mmdeploy-gpu-micromamba-copy
+      path: dockerfiles/mmdeploy-gpu-micromamba
       push_to_ghcr: true
       max_space: false
       extra_tags: |
