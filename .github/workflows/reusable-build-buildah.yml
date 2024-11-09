@@ -105,7 +105,7 @@ jobs:
           containerfiles: ${{ inputs.path }}/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          oci: true
+          oci: false
           #extra-args: |
             #--squash
 
