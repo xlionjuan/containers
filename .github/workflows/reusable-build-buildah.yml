@@ -62,7 +62,7 @@ permissions:
 
 jobs:
   build-and-push:
-    runs-on: fedora
+    runs-on: ubuntu-24.04
 
     steps:
       - name: Check out the repository
@@ -106,8 +106,8 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           oci: true
-          extra-args: |
-            --squash
+          #extra-args: |
+            #--squash
 
       - name: Push
         id: push

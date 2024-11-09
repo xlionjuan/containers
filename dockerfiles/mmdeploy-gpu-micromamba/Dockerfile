@@ -49,7 +49,8 @@ RUN /bin/micromamba install -y python=${PYTHON_VERSION} conda-build pyyaml numpy
     /bin/micromamba install pytorch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} cudatoolkit=${CUDA} -c pytorch -c conda-forge -y &&\
     /opt/conda/bin/pip install --no-cache-dir openmim watchdog &&\
     /bin/micromamba clean -ya &&\
-    /opt/conda/bin/mim install --no-cache-dir "mmcv"${MMCV_VERSION} onnxruntime-gpu==${ONNXRUNTIME_VERSION} mmengine${MMENGINE_VERSION}
+    /opt/conda/bin/mim install --no-cache-dir "mmcv"${MMCV_VERSION} onnxruntime-gpu==${ONNXRUNTIME_VERSION} mmengine${MMENGINE_VERSION} && \
+    /opt/conda/bin/pip install mmdet --no-cache-dir
 
 # ### install miniconda pytorch openmim + mmcv onnxruntime
 # RUN curl -fsSL -v -o ~/miniconda.sh -O  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh  && \
