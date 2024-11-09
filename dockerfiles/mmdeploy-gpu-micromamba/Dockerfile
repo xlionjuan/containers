@@ -75,7 +75,7 @@ RUN cp -r /usr/local/lib/python3.8/dist-packages/tensorrt* /opt/conda/lib/python
 ### get onnxruntime
 ENV ONNXRUNTIME_DIR=/root/workspace/onnxruntime-linux-x64-${ONNXRUNTIME_VERSION}
 ENV TENSORRT_DIR=/workspace/tensorrt
-ARG VERSION
+#ARG VERSION
 
 ENV BACKUP_LD_LIBRARY_PATH=$LD_LIBRARY_PATH
 ENV LD_LIBRARY_PATH=/usr/local/cuda/compat/lib.real/:$LD_LIBRARY_PATH
