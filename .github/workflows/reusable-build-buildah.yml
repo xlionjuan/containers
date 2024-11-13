@@ -62,11 +62,11 @@ permissions:
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-24.04
+    runs-on: fedora
 
     steps:
       - name: System update
-        if: true
+        if: false
         run: sudo apt-get update && sudo apt-get upgrade -y
 
       - name: Check out the repository
