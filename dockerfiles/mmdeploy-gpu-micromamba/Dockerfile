@@ -1,5 +1,5 @@
 # bring in the micromamba image so we can copy files from it
-FROM mambaorg/micromamba:latest as micromamba
+FROM registry.hub.docker.com/mambaorg/micromamba:latest as micromamba
 
 FROM nvcr.io/nvidia/tensorrt:22.04-py3
 
