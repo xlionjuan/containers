@@ -45,7 +45,7 @@ RUN /usr/local/bin/_dockerfile_initialize_user_accounts.sh && \
 SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
 ### install miniconda pytorch openmim + mmcv onnxruntime
-RUN /bin/micromamba install -y python=${PYTHON_VERSION} conda-build pyyaml numpy<2 ipython cython typing typing_extensions mkl mkl-include ninja -c defaults && \
+RUN /bin/micromamba install -y python=${PYTHON_VERSION} conda-build pyyaml numpy<=1.24.4 ipython cython typing typing_extensions mkl mkl-include ninja -c defaults && \
     /bin/micromamba install pytorch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} cudatoolkit=${CUDA} -c pytorch -c conda-forge -y &&\
     /opt/conda/bin/pip install --no-cache-dir openmim watchdog &&\
     /bin/micromamba clean -ya &&\
