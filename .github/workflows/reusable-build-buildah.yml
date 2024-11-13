@@ -65,6 +65,10 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
+      - name: System update
+        if: true
+        run: sudo apt-get update && sudo apt-get upgrade -y
+
       - name: Check out the repository
         uses: actions/checkout@v4
 
