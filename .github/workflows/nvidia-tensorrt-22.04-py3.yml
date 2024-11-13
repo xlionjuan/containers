@@ -1,0 +1,22 @@
+name: nvidia-tensorrt-22.04-py3
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+
+jobs:
+  build:
+    name: build
+    uses: ./.github/workflows/reusable-build-buildah.yml
+    with:
+      image_name: nvidia-tensorrt-22.04-py3
+      path: dockerfiles/nvidia-tensorrt-22.04-py3
+      push_to_ghcr: true
+      max_space: false
+      extra-args: |
+        --squash
+        

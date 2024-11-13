@@ -1,7 +1,7 @@
 # bring in the micromamba image so we can copy files from it
 FROM registry.hub.docker.com/mambaorg/micromamba:latest as micromamba
 
-FROM nvcr.io/nvidia/tensorrt:22.04-py3
+FROM ghcr.io/xlionjuan/nvidia-tensorrt-22.04-py3:latest
 
 ARG CUDA=11.3
 ARG PYTHON_VERSION=3.9
@@ -23,11 +23,11 @@ ENV MAMBA_EXE="/bin/micromamba"
 ENV DEBIAN_FRONTEND=noninteractive
 
 ### update apt and install libs
-RUN apt-get update &&\
-    apt-get upgrade -y &&\
-    apt-get install -y vim libsm6 libxext6 libxrender-dev libgl1-mesa-glx git wget libssl-dev libopencv-dev libspdlog-dev --no-install-recommends &&\
-    apt-get clean &&\
-    rm -rf /var/lib/apt/lists/*
+# RUN apt-get update &&\
+#     apt-get upgrade -y &&\
+#     apt-get install -y vim libsm6 libxext6 libxrender-dev libgl1-mesa-glx git wget libssl-dev libopencv-dev libspdlog-dev --no-install-recommends &&\
+#     apt-get clean &&\
+#     rm -rf /var/lib/apt/lists/*
 
 COPY --from=micromamba "$MAMBA_EXE" "$MAMBA_EXE"
 COPY --from=micromamba /usr/local/bin/_activate_current_env.sh /usr/local/bin/_activate_current_env.sh
