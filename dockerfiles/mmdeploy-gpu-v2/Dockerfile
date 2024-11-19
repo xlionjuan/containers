@@ -1,9 +1,9 @@
 # bring in the micromamba image so we can copy files from it
 FROM registry.hub.docker.com/mambaorg/micromamba:latest as micromamba
 
-FROM ghcr.io/xlionjuan/nvidia-tensorrt-22.04-py3:latest
+FROM ghcr.io/xlionjuan/cuda-12-3-runtime-ubuntu22:latest
 
-ARG CUDA=11.3
+ARG CUDA=12.3
 ARG PYTHON_VERSION=3.9
 ARG TORCH_VERSION=1.10.0
 ARG TORCHVISION_VERSION=0.11.0
@@ -46,7 +46,7 @@ SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
 ### install miniconda pytorch openmim + mmcv onnxruntime
 RUN /bin/micromamba install -y python=${PYTHON_VERSION} conda-build pyyaml "numpy<=1.24.4" ipython cython typing typing_extensions mkl mkl-include ninja -c defaults && \
-    /bin/micromamba install pytorch==${TORCH_VERSION} torchvision==${TORCHVISION_VERSION} cudatoolkit=${CUDA} -c pytorch -c conda-forge -y &&\
+    /bin/micromamba install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c conda-forge -c nvidia -y &&\
     /opt/conda/bin/pip install --no-cache-dir openmim watchdog &&\
     /bin/micromamba clean -ya &&\
     /opt/conda/bin/mim install --no-cache-dir "mmcv"${MMCV_VERSION} onnxruntime-gpu==${ONNXRUNTIME_VERSION} mmengine${MMENGINE_VERSION} && \
