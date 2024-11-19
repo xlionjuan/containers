@@ -48,7 +48,7 @@ SHELL ["/usr/local/bin/_dockerfile_shell.sh"]
 
 ### install miniconda pytorch openmim + mmcv onnxruntime
 RUN /bin/micromamba install -y python=${PYTHON_VERSION} conda-build pyyaml "numpy<=1.24.4" ipython cython typing typing_extensions mkl mkl-include ninja -c defaults && \
-    /bin/micromamba install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c conda-forge -c nvidia -y &&\
+    /bin/micromamba install pytorch torchvision torchaudio pytorch-cuda=12.4 cudatoolkit=${CUDA} -c pytorch -c conda-forge -c nvidia -y &&\
     /opt/conda/bin/pip install --no-cache-dir openmim watchdog &&\
     /bin/micromamba clean -ya &&\
     /opt/conda/bin/mim install --no-cache-dir "mmcv"${MMCV_VERSION} onnxruntime-gpu==${ONNXRUNTIME_VERSION} mmengine${MMENGINE_VERSION} && \
