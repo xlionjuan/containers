@@ -1,0 +1,23 @@
+name: mmdeploy-gpu-v2
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+
+jobs:
+  build:
+    name: build
+    uses: ./.github/workflows/reusable-build-buildah.yml
+    with:
+      image_name: mmdeploy-gpu-v2
+      path: dockerfiles/mmdeploy-gpu-v2
+      push_to_ghcr: true
+      max_space: true
+      extra_tags: |
+        type=raw,value=py39
+        type=raw,value=py39-{{date 'YYYYMMDD'}}
+        

@@ -1,0 +1,22 @@
+name: cuda-12-3-runtime-ubuntu22
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+  id-token: write
+  attestations: write
+
+jobs:
+  build:
+    name: build
+    uses: ./.github/workflows/reusable-build-buildah.yml
+    with:
+      image_name: cuda-12-3-runtime-ubuntu22
+      path: dockerfiles/cuda-12-3-runtime-ubuntu22
+      push_to_ghcr: true
+      max_space: false
+      extra-args: |
+        --squash
+        
