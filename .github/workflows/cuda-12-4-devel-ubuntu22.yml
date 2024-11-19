@@ -16,7 +16,7 @@ jobs:
       image_name: cuda-12-4-devel-ubuntu22
       path: dockerfiles/cuda-12-4-devel-ubuntu22
       push_to_ghcr: true
-      max_space: false
+      max_space: true
       extra-args: |
         --squash
         
