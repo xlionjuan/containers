@@ -1,4 +1,4 @@
-FROM docker.io/nvidia/cuda:12.3.2-runtime-ubuntu22.04
+FROM docker.io/nvidia/cuda:12.4.1-cudnn-devel-ubuntu22.04
 
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get upgrade -y &&\

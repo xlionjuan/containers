@@ -1,4 +1,4 @@
-name: cuda-12-3-runtime-ubuntu22
+name: cuda-12-4-devel-ubuntu22
 on:
   workflow_dispatch:
 
@@ -13,8 +13,8 @@ jobs:
     name: build
     uses: ./.github/workflows/reusable-build-buildah.yml
     with:
-      image_name: cuda-12-3-runtime-ubuntu22
-      path: dockerfiles/cuda-12-3-runtime-ubuntu22
+      image_name: cuda-12-4-devel-ubuntu22
+      path: dockerfiles/cuda-12-4-devel-ubuntu22
       push_to_ghcr: true
       max_space: false
       extra-args: |

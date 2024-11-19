@@ -1,9 +1,9 @@
 # bring in the micromamba image so we can copy files from it
 FROM registry.hub.docker.com/mambaorg/micromamba:latest as micromamba
 
-FROM ghcr.io/xlionjuan/cuda-12-3-runtime-ubuntu22:latest
+FROM ghcr.io/xlionjuan/cuda-12-4-devel-ubuntu22:latest
 
-ARG CUDA=12.3
+ARG CUDA=12.4
 ARG PYTHON_VERSION=3.9
 ARG TORCH_VERSION=1.10.0
 ARG TORCHVISION_VERSION=0.11.0
