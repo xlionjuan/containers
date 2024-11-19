@@ -1,7 +1,7 @@
 # bring in the micromamba image so we can copy files from it
 FROM registry.hub.docker.com/mambaorg/micromamba:latest as micromamba
 
-FROM nvcr.io/nvidia/tensorrt:22.04-py3 as tersorrt
+FROM ghcr.io/xlionjuan/nvidia-tensorrt-22.04-py3-dist-packages as tersorrt
 
 FROM ghcr.io/xlionjuan/cuda-12-4-devel-ubuntu22:latest
 
@@ -72,7 +72,7 @@ WORKDIR /root/workspace
 #RUN cp -r /usr/local/lib/python${PYTHON_VERSION}/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
 #RUN cp -r /usr/local/lib/python3.8/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
 
-COPY --from=tersorrt /usr/local/lib/python3.8/dist-packages/tensorrt* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
+COPY --from=tersorrt /* /opt/conda/lib/python${PYTHON_VERSION}/site-packages/
 
 ### build sdk
 ### install mmdeploy
